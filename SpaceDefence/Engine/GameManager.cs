@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace SpaceDefence
 {
+    // Singleton, not to be initialized outside of class.
     public class GameManager
     {
         private static GameManager gameManager;
@@ -29,7 +30,7 @@ namespace SpaceDefence
                 gameManager = new GameManager();
             return gameManager;
         }
-        public GameManager()
+        private GameManager()
         {
             _gameObjects = new List<GameObject>();
             _toBeRemoved = new List<GameObject>();
