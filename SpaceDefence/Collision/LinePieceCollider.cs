@@ -87,7 +87,7 @@ namespace SpaceDefence
         /// <returns> A Vector2 containing the direction from point1 to point2. </returns>
         public static Vector2 GetDirection(Vector2 point1, Vector2 point2)
         {
-            var direction = (point2 - point1);
+            var direction = point2 - point1;
             direction.Normalize();
             return direction;
         }
