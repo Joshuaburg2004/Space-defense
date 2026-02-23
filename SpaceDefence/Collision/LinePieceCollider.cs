@@ -113,7 +113,11 @@ namespace SpaceDefence
         /// <returns>true there is any overlap between the two Circles.</returns>
         public override bool Intersects(CircleCollider other)
         {
-            // TODO Implement hint, you can use the NearestPointOnLine function defined below.
+            var pq = End - Start;
+            var pc = other.Center - Start;
+            var dist = Math.Clamp(Vector2.Dot(pq, pc) / Math.Pow(pq.Length(), 2), 0.0f, 1.0f);
+            var near = Start + (pq * (float)dist);
+            if (other.Contains(near)) return true;
             return false;
         }
 
@@ -124,7 +128,10 @@ namespace SpaceDefence
         /// <returns>true there is any overlap between the Circle and the Rectangle.</returns>
         public override bool Intersects(RectangleCollider other)
         {
-            // TODO Implement
+            if (Vector2.Dot(new(other.shape.Left, other.shape.Bottom), End - Start) > 0)
+            {
+                
+            }
             return false;
         }
 
