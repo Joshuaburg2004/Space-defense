@@ -106,11 +106,6 @@ namespace SpaceDefence
             return Contains(intersect) && other.Contains(intersect);
         }
 
-        public static float Dot(Vector2 a, Vector2 b)
-        {
-            return (a.X * b.X) + (a.Y * b.Y);
-        }
-
 
         /// <summary>
         /// Gets whether or not the line intersects a Circle.
@@ -157,8 +152,11 @@ namespace SpaceDefence
         /// <returns>The nearest point on the line.</returns>
         public Vector2 NearestPointOnLine(Vector2 other)
         {
-            // TODO Implement
-            return Vector2.Zero;
+            var direction = GetDirection();
+            direction.Normalize();
+            Vector2 lhs = other - Start;
+
+            return Start + direction * Vector2.Dot(lhs, direction);
         }
 
         /// <summary>
@@ -183,7 +181,7 @@ namespace SpaceDefence
         {
             var thisDiffX = coordinates.X - Start.X;
             var thisDiffY = coordinates.Y - Start.Y;
-            var t = Dot(GetDirection(), new (thisDiffX, thisDiffY));
+            var t = Vector2.Dot(GetDirection(), new (thisDiffX, thisDiffY));
             return t > 0 && t < Length;
         }
 
