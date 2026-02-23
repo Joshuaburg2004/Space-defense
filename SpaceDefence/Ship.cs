@@ -43,9 +43,9 @@ namespace SpaceDefence
         {
             base.HandleInput(inputManager);
             target = inputManager.CurrentMouseState.Position;
+            // Check W, A, S and D, adjust momentum accordingly
             if(inputManager.LeftMousePress())
             {
-
                 Vector2 aimDirection = LinePieceCollider.GetDirection(GetPosition().Center, target);
                 Vector2 turretExit = _rectangleCollider.shape.Center.ToVector2() + aimDirection * base_turret.Height / 2f;
                 if (buffTimer <= 0)
