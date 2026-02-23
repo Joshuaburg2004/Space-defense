@@ -155,7 +155,7 @@ namespace SpaceDefence
             direction.Normalize();
             Vector2 lhs = other - Start;
 
-            return Start + direction * Vector2.Dot(lhs, direction);
+            return Start + direction * Math.Clamp(Vector2.Dot(lhs, direction), 0.0f, Length);
         }
 
         /// <summary>
