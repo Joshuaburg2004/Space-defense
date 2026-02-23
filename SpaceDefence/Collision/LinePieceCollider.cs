@@ -1,6 +1,7 @@
 ﻿using System;
 using SpaceDefence.Collision;
 using Microsoft.Xna.Framework;
+using System.Runtime.CompilerServices;
 
 namespace SpaceDefence
 {
@@ -25,14 +26,13 @@ namespace SpaceDefence
         }
 
         /// <summary>
-        /// The A component from the standard line formula Ax + By + C = 0
+        /// The A component from the standard line formula Ax + By - C = 0
         /// </summary>
         public float StandardA
         {
             get
             {
-                // TODO: Implement
-                return 0;
+                return GetDirection().Y;
             }
         }
 
@@ -43,8 +43,7 @@ namespace SpaceDefence
         {
             get
             {
-                // TODO: Implement
-                return 0;
+                return GetDirection().X;
             }
         }
 
@@ -55,8 +54,7 @@ namespace SpaceDefence
         {
             get
             {
-                // TODO: Implement
-                return 0;
+                return Start.Y - (StandardA * Start.X);
             }
         }
 
@@ -79,8 +77,7 @@ namespace SpaceDefence
         /// <returns> The angle in radians between the the up vector and the direction to the cursor.</returns>
         public static float GetAngle(Vector2 direction)
         {
-            // TODO: Implement
-            return 0;
+            return (float)Math.Atan2(direction.Y, direction.X) + (float) Math.PI / 2.0f;
         }
 
 
@@ -90,8 +87,9 @@ namespace SpaceDefence
         /// <returns> A Vector2 containing the direction from point1 to point2. </returns>
         public static Vector2 GetDirection(Vector2 point1, Vector2 point2)
         {
-            // TODO Implement, currently pointing up.
-            return -Vector2.UnitY;
+            var direction = (point2 - point1);
+            direction.Normalize();
+            return direction;
         }
 
 
@@ -102,8 +100,15 @@ namespace SpaceDefence
         /// <returns>true there is any overlap between the Circle and the Line.</returns>
         public override bool Intersects(LinePieceCollider other)
         {
-            // TODO Implement.
-            return false;
+            var intersect = GetIntersection(other);
+            
+            
+            return Contains(intersect) && other.Contains(intersect);
+        }
+
+        public static float Dot(Vector2 a, Vector2 b)
+        {
+            return (a.X * b.X) + (a.Y * b.Y);
         }
 
 
@@ -134,10 +139,15 @@ namespace SpaceDefence
         /// </summary>
         /// <param name="Other">The line to intersect with</param>
         /// <returns>A Vector2 with the point of intersection.</returns>
-        public Vector2 GetIntersection(LinePieceCollider Other)
+        public Vector2 GetIntersection(LinePieceCollider other)
         {
-            // TODO Implement
-            return Vector2.Zero;
+            var divisor = StandardA * other.StandardB - StandardB * other.StandardA;
+            if (divisor == 0) return default;
+            var intersect = new Vector2(
+                (StandardB * other.StandardC - StandardC * other.StandardB) / divisor,
+                (StandardC * other.StandardA - StandardA * other.StandardC) / divisor 
+            );
+            return intersect;
         }
 
         /// <summary>
@@ -171,9 +181,10 @@ namespace SpaceDefence
         /// <returns>true if the coordinates are within the circle.</returns>
         public override bool Contains(Vector2 coordinates)
         {
-            // TODO: Implement
-
-            return false;
+            var thisDiffX = coordinates.X - Start.X;
+            var thisDiffY = coordinates.Y - Start.Y;
+            var t = Dot(GetDirection(), new (thisDiffX, thisDiffY));
+            return t > 0 && t < Length;
         }
 
         public bool Equals(LinePieceCollider other)
