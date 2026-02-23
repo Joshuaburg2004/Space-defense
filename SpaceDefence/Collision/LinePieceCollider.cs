@@ -1,7 +1,6 @@
 ﻿using System;
 using SpaceDefence.Collision;
 using Microsoft.Xna.Framework;
-using System.Runtime.CompilerServices;
 
 namespace SpaceDefence
 {
