@@ -1,5 +1,4 @@
-﻿using System;
-using SpaceDefence.Collision;
+﻿using SpaceDefence.Collision;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,6 +14,8 @@ namespace SpaceDefence
         private float buffDuration = 10f;
         private RectangleCollider _rectangleCollider;
         private Point target;
+        private Vector2 velocity;
+        private Vector2 accelerationOnPress = new Vector2(0.0f, 1.0f);
 
         /// <summary>
         /// The player character
@@ -44,6 +45,10 @@ namespace SpaceDefence
             base.HandleInput(inputManager);
             target = inputManager.CurrentMouseState.Position;
             // Check W, A, S and D, adjust momentum accordingly
+            if(inputManager.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.W))
+            {
+                
+            }
             if(inputManager.LeftMousePress())
             {
                 Vector2 aimDirection = LinePieceCollider.GetDirection(GetPosition().Center, target);
