@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace SpaceDefence
 {
@@ -15,7 +16,8 @@ namespace SpaceDefence
         private RectangleCollider _rectangleCollider;
         private Point target;
         private Vector2 velocity;
-        private Vector2 accelerationOnPress = new Vector2(0.0f, 1.0f);
+        private float accelerationRate = 2.5f;
+        private float maxSpeed = 10f;
 
         /// <summary>
         /// The player character
@@ -39,15 +41,37 @@ namespace SpaceDefence
         }
 
 
-
         public override void HandleInput(InputManager inputManager)
         {
             base.HandleInput(inputManager);
             target = inputManager.CurrentMouseState.Position;
             // Check W, A, S and D, adjust momentum accordingly
+            Vector2 acceleration = new Vector2();
             if(inputManager.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.W))
             {
-                
+                acceleration.Y -= 1;
+            }
+            if(inputManager.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.S))
+            {
+                acceleration.Y += 1;
+            }
+            if(inputManager.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.A))
+            {
+                acceleration.X -= 1;
+            }
+            if(inputManager.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.D))
+            {
+                acceleration.X += 1;
+            }
+            System.Console.WriteLine($"1. {acceleration.X}");
+            if (acceleration != Vector2.Zero) { acceleration.Normalize(); }
+            System.Console.WriteLine($"2. {acceleration.X}");
+            // Acceleration should be available here
+            velocity += acceleration * accelerationRate;
+            if (velocity.Length() > maxSpeed)
+            {
+                velocity.Normalize();
+                velocity *= maxSpeed;
             }
             if(inputManager.LeftMousePress())
             {
@@ -69,6 +93,15 @@ namespace SpaceDefence
             // Update the Buff timer
             if (buffTimer > 0)
                 buffTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            // Apply velocity
+            Vector2 newPosition = _rectangleCollider.shape.Location.ToVector2() + velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            //Ensure Ship stays on screen
+            newPosition.X = MathHelper.Clamp(newPosition.X, 0, GameManager.GetGameManager().Game.GraphicsDevice.Viewport.Width - _rectangleCollider.shape.Width);
+            newPosition.Y = MathHelper.Clamp(newPosition.Y, 0, GameManager.GetGameManager().Game.GraphicsDevice.Viewport.Height - _rectangleCollider.shape.Height);
+
+            // New position
+            _rectangleCollider.shape.Location = newPosition.ToPoint();
 
             base.Update(gameTime);
         }
