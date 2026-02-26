@@ -105,18 +105,20 @@ namespace SpaceDefence
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(ship_body, _rectangleCollider.shape, Color.White);
+            //void SpriteBatch.Draw(, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth)
+            float angle = (float)Math.Atan2(velocity.Y, velocity.X) + (float)Math.PI / 2.0f;
+            spriteBatch.Draw(ship_body, _rectangleCollider.shape, null, Color.White, angle, ship_body.Bounds.Size.ToVector2() / 2f, SpriteEffects.None, 0);
             float aimAngle = LinePieceCollider.GetAngle(LinePieceCollider.GetDirection(GetPosition().Center, target));
             if (buffTimer <= 0)
             {
                 Rectangle turretLocation = base_turret.Bounds;
-                turretLocation.Location = _rectangleCollider.shape.Center;
+                turretLocation.Location = new Point(_rectangleCollider.shape.Left, _rectangleCollider.shape.Top);
                 spriteBatch.Draw(base_turret, turretLocation, null, Color.White, aimAngle, turretLocation.Size.ToVector2() / 2f, SpriteEffects.None, 0);
             }
             else
             {
                 Rectangle turretLocation = laser_turret.Bounds;
-                turretLocation.Location = _rectangleCollider.shape.Center;
+                turretLocation.Location = new Point(_rectangleCollider.shape.Left, _rectangleCollider.shape.Top);
                 spriteBatch.Draw(laser_turret, turretLocation, null, Color.White, aimAngle, turretLocation.Size.ToVector2() / 2f, SpriteEffects.None, 0);
             }
             base.Draw(gameTime, spriteBatch);
