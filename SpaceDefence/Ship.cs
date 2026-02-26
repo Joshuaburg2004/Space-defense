@@ -16,8 +16,9 @@ namespace SpaceDefence
         private RectangleCollider _rectangleCollider;
         private Point target;
         private Vector2 velocity;
-        private float accelerationRate = 2.5f;
-        private float maxSpeed = 10f;
+        private Vector2 precisePosition;
+        private float accelerationRate = 25f;
+        private float maxSpeed = 200f;
 
         /// <summary>
         /// The player character
@@ -37,6 +38,7 @@ namespace SpaceDefence
             laser_turret = content.Load<Texture2D>("laser_turret");
             _rectangleCollider.shape.Size = ship_body.Bounds.Size;
             _rectangleCollider.shape.Location -= new Point(ship_body.Width/2, ship_body.Height/2);
+            precisePosition = _rectangleCollider.shape.Location.ToVector2();
             base.Load(content);
         }
 
@@ -65,12 +67,11 @@ namespace SpaceDefence
             }
             if (acceleration != Vector2.Zero) { acceleration.Normalize(); }
             velocity += acceleration * accelerationRate;
-            // Works for negative direction, not for positive direction.
-            // if (velocity.Length() >= maxSpeed)
-            // {
-            //     velocity.Normalize();
-            //     velocity *= maxSpeed;
-            // }
+            float maxSpeedSquared = maxSpeed * maxSpeed;
+            if (velocity.LengthSquared() > maxSpeedSquared)
+            {
+                velocity = Vector2.Normalize(velocity) * maxSpeed;
+            }
             if(inputManager.LeftMousePress())
             {
                 Vector2 aimDirection = LinePieceCollider.GetDirection(GetPosition().Center, target);
@@ -92,15 +93,13 @@ namespace SpaceDefence
             if (buffTimer > 0)
                 buffTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
             // Apply velocity
-            Vector2 newPosition = _rectangleCollider.shape.Location.ToVector2() + velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            precisePosition += velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             //Ensure Ship stays on screen
-            newPosition.X = MathHelper.Clamp(newPosition.X, 0, GameManager.GetGameManager().Game.GraphicsDevice.Viewport.Width - _rectangleCollider.shape.Width);
-            newPosition.Y = MathHelper.Clamp(newPosition.Y, 0, GameManager.GetGameManager().Game.GraphicsDevice.Viewport.Height - _rectangleCollider.shape.Height);
+            precisePosition.X = MathHelper.Clamp(precisePosition.X, 0, GameManager.GetGameManager().Game.GraphicsDevice.Viewport.Width - _rectangleCollider.shape.Width);
+            precisePosition.Y = MathHelper.Clamp(precisePosition.Y, 0, GameManager.GetGameManager().Game.GraphicsDevice.Viewport.Height - _rectangleCollider.shape.Height);
             // New position
-            _rectangleCollider.shape.Location = newPosition.ToPoint();
-            System.Console.WriteLine($"width: {GameManager.GetGameManager().Game.GraphicsDevice.Viewport.Width}");
-            System.Console.WriteLine($"position: {newPosition.X}");
+            _rectangleCollider.shape.Location = precisePosition.ToPoint();
 
             base.Update(gameTime);
         }
