@@ -73,7 +73,7 @@ namespace SpaceDefence
             if(inputManager.LeftMousePress())
             {
                 Vector2 aimDirection = LinePieceCollider.GetDirection(GetPosition().Center, target);
-                Vector2 turretExit = _rectangleCollider.shape.Center.ToVector2() + aimDirection * base_turret.Height / 2f;
+                Vector2 turretExit = new Point(_rectangleCollider.shape.Left, _rectangleCollider.shape.Top).ToVector2() + aimDirection * base_turret.Height / 2f;
                 if (buffTimer <= 0)
                 {
                     GameManager.GetGameManager().AddGameObject(new Bullet(turretExit, aimDirection, 150));
