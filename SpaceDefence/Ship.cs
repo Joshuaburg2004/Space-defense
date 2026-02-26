@@ -63,16 +63,14 @@ namespace SpaceDefence
             {
                 acceleration.X += 1;
             }
-            System.Console.WriteLine($"1. {acceleration.X}");
             if (acceleration != Vector2.Zero) { acceleration.Normalize(); }
-            System.Console.WriteLine($"2. {acceleration.X}");
-            // Acceleration should be available here
             velocity += acceleration * accelerationRate;
-            if (velocity.Length() > maxSpeed)
-            {
-                velocity.Normalize();
-                velocity *= maxSpeed;
-            }
+            // Works for negative direction, not for positive direction.
+            // if (velocity.Length() >= maxSpeed)
+            // {
+            //     velocity.Normalize();
+            //     velocity *= maxSpeed;
+            // }
             if(inputManager.LeftMousePress())
             {
                 Vector2 aimDirection = LinePieceCollider.GetDirection(GetPosition().Center, target);
@@ -99,9 +97,10 @@ namespace SpaceDefence
             //Ensure Ship stays on screen
             newPosition.X = MathHelper.Clamp(newPosition.X, 0, GameManager.GetGameManager().Game.GraphicsDevice.Viewport.Width - _rectangleCollider.shape.Width);
             newPosition.Y = MathHelper.Clamp(newPosition.Y, 0, GameManager.GetGameManager().Game.GraphicsDevice.Viewport.Height - _rectangleCollider.shape.Height);
-
             // New position
             _rectangleCollider.shape.Location = newPosition.ToPoint();
+            System.Console.WriteLine($"width: {GameManager.GetGameManager().Game.GraphicsDevice.Viewport.Width}");
+            System.Console.WriteLine($"position: {newPosition.X}");
 
             base.Update(gameTime);
         }
