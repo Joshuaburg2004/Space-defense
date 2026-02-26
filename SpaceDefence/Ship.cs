@@ -16,7 +16,6 @@ namespace SpaceDefence
         private RectangleCollider _rectangleCollider;
         private Point target;
         private Vector2 velocity;
-        private Vector2 precisePosition;
         private float accelerationRate = 25f;
         private float maxSpeed = 200f;
 
@@ -38,7 +37,6 @@ namespace SpaceDefence
             laser_turret = content.Load<Texture2D>("laser_turret");
             _rectangleCollider.shape.Size = ship_body.Bounds.Size;
             _rectangleCollider.shape.Location -= new Point(ship_body.Width/2, ship_body.Height/2);
-            precisePosition = _rectangleCollider.shape.Location.ToVector2();
             base.Load(content);
         }
 
@@ -93,13 +91,14 @@ namespace SpaceDefence
             if (buffTimer > 0)
                 buffTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
             // Apply velocity
-            precisePosition += velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            Vector2 newPosition = _rectangleCollider.shape.Location.ToVector2();
+            newPosition += velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             //Ensure Ship stays on screen
-            precisePosition.X = MathHelper.Clamp(precisePosition.X, 0, GameManager.GetGameManager().Game.GraphicsDevice.Viewport.Width - _rectangleCollider.shape.Width);
-            precisePosition.Y = MathHelper.Clamp(precisePosition.Y, 0, GameManager.GetGameManager().Game.GraphicsDevice.Viewport.Height - _rectangleCollider.shape.Height);
+            newPosition.X = MathHelper.Clamp(newPosition.X, 0, GameManager.GetGameManager().Game.GraphicsDevice.Viewport.Width - _rectangleCollider.shape.Width);
+            newPosition.Y = MathHelper.Clamp(newPosition.Y, 0, GameManager.GetGameManager().Game.GraphicsDevice.Viewport.Height - _rectangleCollider.shape.Height);
             // New position
-            _rectangleCollider.shape.Location = precisePosition.ToPoint();
+            _rectangleCollider.shape.Location = newPosition.ToPoint();
 
             base.Update(gameTime);
         }
