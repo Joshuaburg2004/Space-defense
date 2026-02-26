@@ -96,12 +96,10 @@ namespace SpaceDefence
         /// Gets whether or not the Line intersects another Line
         /// </summary>
         /// <param name="other">The Line to check for intersection</param>
-        /// <returns>true there is any overlap between the Circle and the Line.</returns>
+        /// <returns>true there is any overlap between the two lines.</returns>
         public override bool Intersects(LinePieceCollider other)
         {
             var intersect = GetIntersection(other);
-            
-            
             return Contains(intersect) && other.Contains(intersect);
         }
 
@@ -110,7 +108,7 @@ namespace SpaceDefence
         /// Gets whether or not the line intersects a Circle.
         /// </summary>
         /// <param name="other">The Circle to check for intersection.</param>
-        /// <returns>true there is any overlap between the two Circles.</returns>
+        /// <returns>true if line intersects circle, otherwise false.</returns>
         public override bool Intersects(CircleCollider other)
         {
             var pq = End - Start;
@@ -125,12 +123,34 @@ namespace SpaceDefence
         /// Gets whether or not the Line intersects the Rectangle.
         /// </summary>
         /// <param name="other">The Rectangle to check for intersection.</param>
-        /// <returns>true there is any overlap between the Circle and the Rectangle.</returns>
+        /// <returns>true there is any overlap between the Line and the Rectangle.</returns>
         public override bool Intersects(RectangleCollider other)
         {
-            if (Vector2.Dot(new(other.shape.Left, other.shape.Bottom), End - Start) > 0)
+            Vector2 TopLeft = new Vector2(other.shape.Left, other.shape.Top);
+            Vector2 TopRight = new Vector2(other.shape.Right, other.shape.Top);
+            Vector2 BottomLeft = new Vector2(other.shape.Left, other.shape.Bottom);
+            Vector2 BottomRight = new Vector2(other.shape.Right, other.shape.Bottom);
+            LinePieceCollider[] Sides = [
+                new LinePieceCollider(TopLeft, TopRight), 
+                new LinePieceCollider(BottomLeft, BottomRight), 
+                new LinePieceCollider(TopLeft, BottomLeft), 
+                new LinePieceCollider(TopRight, BottomRight)
+            ];
+            // Logic to check if the line segment is inside the rectangle.
+            if (other.Contains(Start) || other.Contains(End)) { return true; }
+            // Logic to check if the line segment intersects with any of the sides.
+            foreach (LinePieceCollider side in Sides)
             {
-                
+                var divisor = StandardA * side.StandardB - side.StandardA * StandardB;
+                if (divisor == 0) return false;
+                var intersect = new Vector2(
+                    (StandardB * side.StandardC - StandardC * side.StandardB) / divisor,
+                    (StandardC * side.StandardA - StandardA * side.StandardC) / divisor 
+                );
+                if (Contains(intersect) && side.Contains(intersect))
+                {
+                    return true;
+                }
             }
             return false;
         }
