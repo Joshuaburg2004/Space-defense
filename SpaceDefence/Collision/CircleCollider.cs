@@ -62,7 +62,17 @@ namespace SpaceDefence
         /// <returns>true there is any overlap between the two Circles.</returns>
         public override bool Intersects(CircleCollider other)
         {
-            // TODO Implement
+            // Distance between centres of circles
+            var CDistance = Math.Sqrt(Math.Pow(Center.X - other.Center.X, 2) + Math.Pow(Center.Y - other.Center.Y, 2));
+            if (
+                CDistance < Radius - other.Radius || 
+                CDistance < other.Radius - Radius || 
+                CDistance < Radius + other.Radius || 
+                CDistance == Radius + other.Radius 
+            )
+            {
+                return true;
+            }
             return false;
         }
 
@@ -74,8 +84,21 @@ namespace SpaceDefence
         /// <returns>true there is any overlap between the Circle and the Rectangle.</returns>
         public override bool Intersects(RectangleCollider other)
         {
-            // TODO Implement
-            return  false;
+            Vector2 TopLeft = new Vector2(other.shape.Left, other.shape.Top);
+            Vector2 TopRight = new Vector2(other.shape.Right, other.shape.Top);
+            Vector2 BottomLeft = new Vector2(other.shape.Left, other.shape.Bottom);
+            Vector2 BottomRight = new Vector2(other.shape.Right, other.shape.Bottom);
+            LinePieceCollider[] Sides = [
+                new LinePieceCollider(TopLeft, TopRight), 
+                new LinePieceCollider(BottomLeft, BottomRight), 
+                new LinePieceCollider(TopLeft, BottomLeft), 
+                new LinePieceCollider(TopRight, BottomRight)
+            ];
+            foreach (LinePieceCollider side in Sides)
+            {
+                if (side.Intersects(this)) { return true;}
+            }
+            return false;
         }
         /// <summary>
         /// Gets whether or not the Circle intersects the Line
