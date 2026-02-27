@@ -16,8 +16,8 @@ namespace SpaceDefence
         private RectangleCollider _rectangleCollider;
         private Point target;
         private Vector2 velocity;
-        private float accelerationRate = 25f;
-        private float maxSpeed = 200f;
+        private float accelerationRate = 30f;
+        private float maxSpeed = 250f;
         private float angle = 0f;
 
         /// <summary>

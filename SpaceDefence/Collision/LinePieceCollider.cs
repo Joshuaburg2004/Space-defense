@@ -142,7 +142,7 @@ namespace SpaceDefence
             foreach (LinePieceCollider side in Sides)
             {
                 var divisor = StandardA * side.StandardB - side.StandardA * StandardB;
-                if (divisor == 0) return false;
+                if (divisor == 0) continue;
                 var intersect = new Vector2(
                     (StandardB * side.StandardC - StandardC * side.StandardB) / divisor,
                     (StandardC * side.StandardA - StandardA * side.StandardC) / divisor 
