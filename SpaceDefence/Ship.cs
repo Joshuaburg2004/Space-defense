@@ -18,6 +18,7 @@ namespace SpaceDefence
         private Vector2 velocity;
         private float accelerationRate = 25f;
         private float maxSpeed = 200f;
+        private float angle = 0f;
 
         /// <summary>
         /// The player character
@@ -63,7 +64,10 @@ namespace SpaceDefence
             {
                 acceleration.X += 1;
             }
-            if (acceleration != Vector2.Zero) { acceleration.Normalize(); }
+            if (acceleration != Vector2.Zero) { 
+                acceleration.Normalize();
+                angle = (float)Math.Atan2(acceleration.Y, acceleration.X) + (float)Math.PI / 2.0f;
+            }
             velocity += acceleration * accelerationRate;
             float maxSpeedSquared = maxSpeed * maxSpeed;
             if (velocity.LengthSquared() > maxSpeedSquared)
@@ -106,7 +110,6 @@ namespace SpaceDefence
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             //void SpriteBatch.Draw(, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth)
-            float angle = (float)Math.Atan2(velocity.Y, velocity.X) + (float)Math.PI / 2.0f;
             spriteBatch.Draw(ship_body, _rectangleCollider.shape, null, Color.White, angle, ship_body.Bounds.Size.ToVector2() / 2f, SpriteEffects.None, 0);
             float aimAngle = LinePieceCollider.GetAngle(LinePieceCollider.GetDirection(GetPosition().Center, target));
             if (buffTimer <= 0)
