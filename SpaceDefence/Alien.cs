@@ -34,7 +34,9 @@ namespace SpaceDefence
             RandomMove();
             // Set the new max speed to the new version. Never go faster than player
             version = Math.Clamp(version + 1, 0, 6);
-            if (version == 6) { accelerationRate *= 2; }
+            if (version == 6) { 
+                accelerationRate = Math.Clamp(accelerationRate * 2, 0, 350); 
+            }
             base.OnCollision(other);
         }
 
