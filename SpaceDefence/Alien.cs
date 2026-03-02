@@ -31,6 +31,7 @@ namespace SpaceDefence
 
         public override void OnCollision(GameObject other)
         {
+            if (other is not Laser && other is not Bullet) { return; }
             RandomMove();
             // Set the new max speed to the new version. Never go faster than player
             version = Math.Clamp(version + 1, 0, 6);

@@ -28,6 +28,7 @@ namespace SpaceDefence
 
         public override void OnCollision(GameObject other)
         {
+            if (other is not Laser && other is not Ship && other is not Bullet) { return; }
             RandomMove();
             GameManager.GetGameManager().Player.Buff();
             base.OnCollision(other);
