@@ -9,7 +9,7 @@ Add player movement:
 Add movement to the enemies:
 
 [ ]    Make the Aliens chase the player. Every time the alien dies, a new alien spawns that should move faster than the previous. (.5p)
-[ ]    When the alien comes within a certain range of the player, the player is game over. (.5p)
+[X]    When the alien comes within a certain range of the player, the player is game over. (.5p)
 
 Collision:
 
