@@ -44,6 +44,7 @@ namespace SpaceDefence
 
         public override void HandleInput(InputManager inputManager)
         {
+            GameManager manager = GameManager.GetGameManager();
             base.HandleInput(inputManager);
             target = inputManager.CurrentMouseState.Position;
             // Check W, A, S and D, adjust momentum accordingly
@@ -125,6 +126,14 @@ namespace SpaceDefence
                 spriteBatch.Draw(laser_turret, turretLocation, null, Color.White, aimAngle, turretLocation.Size.ToVector2() / 2f, SpriteEffects.None, 0);
             }
             base.Draw(gameTime, spriteBatch);
+        }
+
+        public override void OnCollision(GameObject other)
+        {
+            if (other is Alien)
+            {
+                Environment.Exit(0);
+            }
         }
 
 
