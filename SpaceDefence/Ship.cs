@@ -44,7 +44,6 @@ namespace SpaceDefence
 
         public override void HandleInput(InputManager inputManager)
         {
-            GameManager manager = GameManager.GetGameManager();
             base.HandleInput(inputManager);
             target = inputManager.CurrentMouseState.Position;
             // Check W, A, S and D, adjust momentum accordingly
