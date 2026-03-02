@@ -12,7 +12,7 @@ namespace SpaceDefence
         private float playerClearance = 100;
         private int version = 0;
         private float accelerationRate = 50f;
-        private float[] maxSpeed = [0f, 50f, 100f, 150f, 200f, 250f];
+        private float[] maxSpeed = [0f, 50f, 100f, 150f, 200f, 250f, 350f];
         private Vector2 velocity = Vector2.Zero;
 
         public Alien() 
@@ -33,7 +33,8 @@ namespace SpaceDefence
         {
             RandomMove();
             // Set the new max speed to the new version. Never go faster than player
-            version = Math.Clamp(version + 1, 0, 5);
+            version = Math.Clamp(version + 1, 0, 6);
+            if (version == 6) { accelerationRate *= 2; }
             base.OnCollision(other);
         }
 
