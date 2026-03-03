@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+
 using System;
 
 namespace SpaceDefence
@@ -47,21 +49,29 @@ namespace SpaceDefence
             base.HandleInput(inputManager);
             
             target = inputManager.CurrentMouseState.Position;
+            GameManager gm = GameManager.GetGameManager();
+            if (inputManager.IsKeyPress(Keys.Escape))
+            {
+                if (gm.gameState == GameManager.GameState.Playing)
+                    gm.gameState = GameManager.GameState.Paused;
+                else if (gm.gameState == GameManager.GameState.Paused)
+                    gm.gameState = GameManager.GameState.Playing;
+            }
             // Check W, A, S and D, adjust momentum accordingly
             Vector2 acceleration = new Vector2();
-            if(inputManager.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.W))
+            if(inputManager.IsKeyDown(Keys.W))
             {
                 acceleration.Y -= 1;
             }
-            if(inputManager.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.S))
+            if(inputManager.IsKeyDown(Keys.S))
             {
                 acceleration.Y += 1;
             }
-            if(inputManager.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.A))
+            if(inputManager.IsKeyDown(Keys.A))
             {
                 acceleration.X -= 1;
             }
-            if(inputManager.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.D))
+            if(inputManager.IsKeyDown(Keys.D))
             {
                 acceleration.X += 1;
             }
@@ -132,7 +142,7 @@ namespace SpaceDefence
         {
             if (other is Alien)
             {
-                
+                GameManager.GetGameManager().gameState = GameManager.GameState.GameOver;
             }
         }
 
