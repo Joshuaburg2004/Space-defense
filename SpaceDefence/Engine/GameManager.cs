@@ -12,7 +12,15 @@ namespace SpaceDefence
     // Singleton, not to be initialized outside of class.
     public class GameManager
     {
+        public enum GameState
+        {
+            MainMenu,
+            Playing,
+            Paused,
+            GameOver
+        }
         private static GameManager gameManager;
+        public GameState gameState { get; set; }
 
         private List<GameObject> _gameObjects;
         private List<GameObject> _toBeRemoved;
@@ -86,29 +94,32 @@ namespace SpaceDefence
             // Handle input
             HandleInput(InputManager);
 
-
-            // Update
-            foreach (GameObject gameObject in _gameObjects)
+            if (gameState == GameState.Playing)
             {
-                gameObject.Update(gameTime);
-            }
+                // Update
+                foreach (GameObject gameObject in _gameObjects)
+                {
+                    gameObject.Update(gameTime);
+                }
 
-            // Check Collission
-            CheckCollision();
+                // Check Collission
+                CheckCollision();
 
-            foreach (GameObject gameObject in _toBeAdded)
-            {
-                gameObject.Load(_content);
-                _gameObjects.Add(gameObject);
-            }
-            _toBeAdded.Clear();
+                foreach (GameObject gameObject in _toBeAdded)
+                {
+                    gameObject.Load(_content);
+                    _gameObjects.Add(gameObject);
+                }
+                _toBeAdded.Clear();
 
-            foreach (GameObject gameObject in _toBeRemoved)
-            {
-                gameObject.Destroy();
-                _gameObjects.Remove(gameObject);
+                foreach (GameObject gameObject in _toBeRemoved)
+                {
+                    gameObject.Destroy();
+                    _gameObjects.Remove(gameObject);
+                }
+                _toBeRemoved.Clear();
             }
-            _toBeRemoved.Clear();
+            
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch) 

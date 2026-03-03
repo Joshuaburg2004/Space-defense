@@ -45,6 +45,7 @@ namespace SpaceDefence
         public override void HandleInput(InputManager inputManager)
         {
             base.HandleInput(inputManager);
+            
             target = inputManager.CurrentMouseState.Position;
             // Check W, A, S and D, adjust momentum accordingly
             Vector2 acceleration = new Vector2();
@@ -131,7 +132,7 @@ namespace SpaceDefence
         {
             if (other is Alien)
             {
-                Environment.Exit(0);
+                
             }
         }
 
