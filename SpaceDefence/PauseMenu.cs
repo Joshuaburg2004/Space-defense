@@ -8,7 +8,7 @@ namespace SpaceDefence
     public class PauseMenu
     {
         private SpriteFont _font;
-        private string[] _options = [ "Resume Game", "Quit to Main Menu" ];
+        private string[] _options = [ "Resume Game", "Quit" ];
         private int _selectedIndex = 0;
 
         public void Load(ContentManager content)
@@ -27,8 +27,8 @@ namespace SpaceDefence
             {
                 if (_selectedIndex == 0) // Resume Game
                     GameManager.GetGameManager().gameState = GameManager.GameState.Playing;
-                else if (_selectedIndex == 1) // Quit to Main Menu
-                    GameManager.GetGameManager().gameState = GameManager.GameState.MainMenu;
+                else if (_selectedIndex == 1) // Quit
+                    GameManager.GetGameManager().Game.Exit();
             }
         }
 
