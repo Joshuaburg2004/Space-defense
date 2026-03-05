@@ -13,7 +13,7 @@ namespace SpaceDefence
         private Texture2D ship_body;
         private Texture2D base_turret;
         private Texture2D laser_turret;
-        private float buffTimer = 100;
+        private float buffTimer = 0;
         private float buffDuration = 10f;
         private RectangleCollider _rectangleCollider;
         private Rectangle drawRectangle;
@@ -96,10 +96,10 @@ namespace SpaceDefence
                 if(inputManager.LeftMousePress())
                 {
                     Vector2 aimDirection = LinePieceCollider.GetDirection(GetPosition().Center, target);
-                    Vector2 turretExit = _rectangleCollider.shape.Location.ToVector2() + aimDirection * base_turret.Height / 2f;
+                    Vector2 turretExit = drawRectangle.Location.ToVector2() + aimDirection * base_turret.Height / 2f;
                     if (buffTimer <= 0)
                     {
-                        GameManager.GetGameManager().AddGameObject(new Bullet(turretExit, aimDirection, 150));
+                        GameManager.GetGameManager().AddGameObject(new Bullet(turretExit, aimDirection, 350));
                     }
                     else
                     {

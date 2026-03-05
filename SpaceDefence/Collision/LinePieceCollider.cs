@@ -1,6 +1,7 @@
 ﻿using System;
 using SpaceDefence.Collision;
 using Microsoft.Xna.Framework;
+using System.Linq;
 
 namespace SpaceDefence
 {
@@ -100,6 +101,7 @@ namespace SpaceDefence
         public override bool Intersects(LinePieceCollider other)
         {
             var intersect = GetIntersection(other);
+            if (intersect == default) return false;
             return Contains(intersect) && other.Contains(intersect);
         }
 
@@ -126,32 +128,7 @@ namespace SpaceDefence
         /// <returns>true there is any overlap between the Line and the Rectangle.</returns>
         public override bool Intersects(RectangleCollider other)
         {
-            Vector2 TopLeft = new Vector2(other.shape.Left, other.shape.Top);
-            Vector2 TopRight = new Vector2(other.shape.Right, other.shape.Top);
-            Vector2 BottomLeft = new Vector2(other.shape.Left, other.shape.Bottom);
-            Vector2 BottomRight = new Vector2(other.shape.Right, other.shape.Bottom);
-            LinePieceCollider[] Sides = [
-                new LinePieceCollider(TopLeft, TopRight), 
-                new LinePieceCollider(BottomLeft, BottomRight), 
-                new LinePieceCollider(TopLeft, BottomLeft), 
-                new LinePieceCollider(TopRight, BottomRight)
-            ];
-            // Logic to check if the line segment is inside the rectangle.
-            if (other.Contains(Start) || other.Contains(End)) { return true; }
-            // Logic to check if the line segment intersects with any of the sides.
-            foreach (LinePieceCollider side in Sides)
-            {
-                var divisor = StandardA * side.StandardB - side.StandardA * StandardB;
-                if (divisor == 0) continue;
-                var intersect = new Vector2(
-                    (StandardB * side.StandardC - StandardC * side.StandardB) / divisor,
-                    (StandardC * side.StandardA - StandardA * side.StandardC) / divisor 
-                );
-                if (Contains(intersect) && side.Contains(intersect))
-                {
-                    return true;
-                }
-            }
+            if(other.Contains(NearestPointOnLine(other.shape.Center.ToVector2()))) return true;
             return false;
         }
 
@@ -205,10 +182,17 @@ namespace SpaceDefence
         /// <returns>true if the coordinates are within the circle.</returns>
         public override bool Contains(Vector2 coordinates)
         {
-            var thisDiffX = coordinates.X - Start.X;
-            var thisDiffY = coordinates.Y - Start.Y;
-            var t = Vector2.Dot(GetDirection(), new (thisDiffX, thisDiffY));
-            return t > 0 && t < Length;
+            var thisDiff = coordinates - Start;
+
+            var t = Vector2.Dot(GetDirection(), thisDiff);
+
+            // Check if the projection is within the bounds of the line segment
+            if (t < 0 || t > Length)
+            {
+                return false;
+            }
+            var perpendicularDistance = Math.Abs(Vector2.Dot(new Vector2(-GetDirection().Y, GetDirection().X), thisDiff));
+            return perpendicularDistance < 0.001f;
         }
 
         public bool Equals(LinePieceCollider other)
