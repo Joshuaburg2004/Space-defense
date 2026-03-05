@@ -5,19 +5,11 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SpaceDefence
 {
-    internal class Alien : GameObject
+    internal class Alien : Enemy
     {
-        private CircleCollider _circleCollider;
-        private Texture2D _texture;
-        private float playerClearance = 100;
-        private int version = 0;
-        private float accelerationRate = 50f;
-        private float[] maxSpeed = [0f, 50f, 100f, 150f, 200f, 250f, 350f];
-        private Vector2 velocity = Vector2.Zero;
-
         public Alien() 
         {
-            
+            maxSpeeds = [0f, 50f, 100f, 150f, 200f, 250f, 350f];
         }
 
         public override void Load(ContentManager content)
@@ -27,28 +19,6 @@ namespace SpaceDefence
             _circleCollider = new CircleCollider(Vector2.Zero, _texture.Width / 2);
             SetCollider(_circleCollider);
             RandomMove();
-        }
-
-        public override void OnCollision(GameObject other)
-        {
-            if (other is not Laser && other is not Bullet) { return; }
-            RandomMove();
-            // Set the new max speed to the new version. Never go faster than player
-            version = Math.Clamp(version + 1, 0, 6);
-            if (version == 6) { 
-                accelerationRate = Math.Clamp(accelerationRate * 2, 0, 350f); 
-            }
-            base.OnCollision(other);
-        }
-
-        public void RandomMove()
-        {
-            GameManager gm = GameManager.GetGameManager();
-            _circleCollider.Center = gm.RandomScreenLocation();
-
-            Vector2 centerOfPlayer = gm.Player.GetPosition().Center.ToVector2();
-            while ((_circleCollider.Center - centerOfPlayer).Length() < playerClearance)
-                _circleCollider.Center = gm.RandomScreenLocation();
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -74,7 +44,7 @@ namespace SpaceDefence
             velocity += direction * accelerationRate * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             // Clamp velocity to max speed for the current version
-            float currentMaxSpeed = maxSpeed[version];
+            float currentMaxSpeed = maxSpeeds[version];
             if (velocity.Length() > currentMaxSpeed)
             {
                 velocity.Normalize();

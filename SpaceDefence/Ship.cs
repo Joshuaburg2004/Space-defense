@@ -48,7 +48,6 @@ namespace SpaceDefence
         {
             base.HandleInput(inputManager);
             
-            target = inputManager.CurrentMouseState.Position;
             GameManager gm = GameManager.GetGameManager();
             if (inputManager.IsKeyPress(Keys.Escape))
             {
@@ -57,45 +56,49 @@ namespace SpaceDefence
                 else if (gm.gameState == GameManager.GameState.Paused)
                     gm.gameState = GameManager.GameState.Playing;
             }
-            // Check W, A, S and D, adjust momentum accordingly
-            Vector2 acceleration = new Vector2();
-            if(inputManager.IsKeyDown(Keys.W))
+            if (gm.gameState == GameManager.GameState.Playing)
             {
-                acceleration.Y -= 1;
-            }
-            if(inputManager.IsKeyDown(Keys.S))
-            {
-                acceleration.Y += 1;
-            }
-            if(inputManager.IsKeyDown(Keys.A))
-            {
-                acceleration.X -= 1;
-            }
-            if(inputManager.IsKeyDown(Keys.D))
-            {
-                acceleration.X += 1;
-            }
-            if (acceleration != Vector2.Zero) { 
-                acceleration.Normalize();
-                angle = (float)Math.Atan2(acceleration.Y, acceleration.X) + (float)Math.PI / 2.0f;
-            }
-            velocity += acceleration * accelerationRate;
-            float maxSpeedSquared = maxSpeed * maxSpeed;
-            if (velocity.LengthSquared() > maxSpeedSquared)
-            {
-                velocity = Vector2.Normalize(velocity) * maxSpeed;
-            }
-            if(inputManager.LeftMousePress())
-            {
-                Vector2 aimDirection = LinePieceCollider.GetDirection(GetPosition().Center, target);
-                Vector2 turretExit = _rectangleCollider.shape.Location.ToVector2() + aimDirection * base_turret.Height / 2f;
-                if (buffTimer <= 0)
+                target = inputManager.CurrentMouseState.Position;
+                // Check W, A, S and D, adjust momentum accordingly
+                Vector2 acceleration = new Vector2();
+                if(inputManager.IsKeyDown(Keys.W))
                 {
-                    GameManager.GetGameManager().AddGameObject(new Bullet(turretExit, aimDirection, 150));
+                    acceleration.Y -= 1;
                 }
-                else
+                if(inputManager.IsKeyDown(Keys.S))
                 {
-                    GameManager.GetGameManager().AddGameObject(new Laser(new LinePieceCollider(turretExit, target.ToVector2()),400));
+                    acceleration.Y += 1;
+                }
+                if(inputManager.IsKeyDown(Keys.A))
+                {
+                    acceleration.X -= 1;
+                }
+                if(inputManager.IsKeyDown(Keys.D))
+                {
+                    acceleration.X += 1;
+                }
+                if (acceleration != Vector2.Zero) { 
+                    acceleration.Normalize();
+                    angle = (float)Math.Atan2(acceleration.Y, acceleration.X) + (float)Math.PI / 2.0f;
+                }
+                velocity += acceleration * accelerationRate;
+                float maxSpeedSquared = maxSpeed * maxSpeed;
+                if (velocity.LengthSquared() > maxSpeedSquared)
+                {
+                    velocity = Vector2.Normalize(velocity) * maxSpeed;
+                }
+                if(inputManager.LeftMousePress())
+                {
+                    Vector2 aimDirection = LinePieceCollider.GetDirection(GetPosition().Center, target);
+                    Vector2 turretExit = _rectangleCollider.shape.Location.ToVector2() + aimDirection * base_turret.Height / 2f;
+                    if (buffTimer <= 0)
+                    {
+                        GameManager.GetGameManager().AddGameObject(new Bullet(turretExit, aimDirection, 150));
+                    }
+                    else
+                    {
+                        GameManager.GetGameManager().AddGameObject(new Laser(new LinePieceCollider(turretExit, target.ToVector2()),400));
+                    }
                 }
             }
         }

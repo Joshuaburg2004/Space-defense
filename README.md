@@ -42,18 +42,18 @@ Implement the following functionality:
 [ ] Create a camera class that follows the player as it moves around the level and expand the play area. (1 p)
 
 #### More enemies:
-[ ] Add a new asteroid enemy that does not move, and destrois both the player and enemies on touch. (0.5p)
+[ ] Add a new asteroid enemy that does not move, and destroys both the player and enemies on touch. (0.5p)
 [ ] Spawn more enemies over time, slowly ramping up the difficulty. (0.5p)
 
 #### Animations:
 [ ] Implement a class that can play an animation using a sprite sheet. (0.5p)
-[ ] It should at least be possible to adjust the speed of the animation and wether or not it loops in the class.
+[ ] It should at least be possible to adjust the speed of the animation and whether or not it loops in the class.
 [ ] Whenever a player or an alien dies, play an explosion animation (0.5p)
 
 #### Game Goal (HUD):
 [ ] Add at least 2 planetes to the level. When the player goes to one planet, they pick up cargo. At the other planet they can drop it off. (0.5p)
 [ ] Whenever the player drops off cargo they score points. The score should always be visible on screen. (HUD) (1p)
-[ ] There should always be some indication of wether or not the player is carrying any cargo. (HUD) (1p)
+[ ] There should always be some indication of whether or not the player is carrying any cargo. (HUD) (1p)
 
 #### New Weapon:
 [ ] Extract a weapon class for the two current weapons that can be added to the ship as a component to the ship. (1p)
