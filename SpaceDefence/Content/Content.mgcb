@@ -104,3 +104,15 @@
 /processorParam:TextureFormat=Color
 /build:ship_body.png
 
+#begin space_breaker_asset/Weapons/Medium/Missile/turret_03_mk3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:space_breaker_asset/Weapons/Medium/Missile/turret_03_mk3.png
+

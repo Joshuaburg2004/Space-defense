@@ -36,7 +36,7 @@ namespace SpaceDefence
         private MainMenu _mainMenu = new();
         private PauseMenu _pauseMenu = new();
         private GameOver _gameOver = new();
-
+        public Camera WorldCamera;
 
         public static GameManager GetGameManager()
         {
@@ -51,6 +51,7 @@ namespace SpaceDefence
             _toBeAdded = new List<GameObject>();
             InputManager = new InputManager();
             RNG = new Random();
+            WorldCamera = new Camera();
         }
 
         public void Initialize(ContentManager content, Game game, Ship player)
@@ -139,7 +140,7 @@ namespace SpaceDefence
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch) 
         {
-            spriteBatch.Begin();
+            spriteBatch.Begin(transformMatrix: WorldCamera.GetTransformMatrix(Game.GraphicsDevice.Viewport.Width, Game.GraphicsDevice.Viewport.Height));
             if (gameState == GameState.MainMenu)
             {
                 _mainMenu.Draw(spriteBatch);

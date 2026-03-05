@@ -64,7 +64,7 @@ namespace SpaceDefence
             }
             if (gm.gameState == GameManager.GameState.Playing)
             {
-                target = inputManager.CurrentMouseState.Position;
+                target = gm.WorldCamera.ScreenToWorld(inputManager.CurrentMouseState.Position, gm.Game.GraphicsDevice.Viewport.Width, gm.Game.GraphicsDevice.Viewport.Height);
                 // Check W, A, S and D, adjust momentum accordingly
                 Vector2 acceleration = new Vector2();
                 if(inputManager.IsKeyDown(Keys.W))
@@ -124,6 +124,7 @@ namespace SpaceDefence
             newPosition.Y = MathHelper.Clamp(newPosition.Y, 0, GameManager.GetGameManager().Game.GraphicsDevice.Viewport.Height - _rectangleCollider.shape.Height);
             // Update collider position
             _rectangleCollider.shape.Location = newPosition.ToPoint();
+            GameManager.GetGameManager().WorldCamera.AdjustPosition(newPosition);
 
             // Update the draw rectangle to match the collider's position
             drawRectangle.Location = _rectangleCollider.shape.Center;

@@ -5,22 +5,17 @@ using Microsoft.Xna.Framework.Input;
 
 namespace SpaceDefence
 {
-    public class PauseMenu
+    public class PauseMenu : Menu
     {
-        private SpriteFont _font;
-        private string[] _options = [ "Resume Game", "Quit" ];
-        private int _selectedIndex = 0;
-
-        public void Load(ContentManager content)
+        public PauseMenu()
         {
-            _font = content.Load<SpriteFont>("DejaVu Sans"); 
+            _options = ["Resume Game", "Quit" ];
         }
-
         public void HandleInput(InputManager inputManager)
         {
             if (inputManager.IsKeyPress(Keys.Up) || inputManager.IsKeyPress(Keys.W))
                 _selectedIndex = (_selectedIndex - 1 + _options.Length) % _options.Length;
-            if (inputManager.IsKeyPress(Keys.Down) || inputManager.IsKeyPress(Keys.S))
+            if (inputManager.IsKeyPress(Keys.Down) || inputManager.IsKeyPress(Keys.Up))
                 _selectedIndex = (_selectedIndex + 1) % _options.Length;
 
             if (inputManager.IsKeyPress(Keys.Enter))
@@ -29,15 +24,6 @@ namespace SpaceDefence
                     GameManager.GetGameManager().gameState = GameManager.GameState.Playing;
                 else if (_selectedIndex == 1) // Quit
                     GameManager.GetGameManager().Game.Exit();
-            }
-        }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            for (int i = 0; i < _options.Length; i++)
-            {
-                Color color = i == _selectedIndex ? Color.Yellow : Color.White;
-                spriteBatch.DrawString(_font, _options[i], new Vector2(800, 400 + i * 50), color);
             }
         }
     }
