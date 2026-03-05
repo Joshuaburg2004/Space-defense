@@ -39,7 +39,7 @@ Implement the following functionality:
 [X] Add a pause screen from where the player can at least continue or quit the game. The game should still be visible in the background, but not be updated.  (0.5p)
 
 #### Expand the level:
-[ ] Create a camera class that follows the player as it moves around the level and expand the play area. (1 p)
+[X] Create a camera class that follows the player as it moves around the level and expand the play area. (1 p)
 
 #### More enemies:
 [ ] Add a new asteroid enemy that does not move, and destroys both the player and enemies on touch. (0.5p)

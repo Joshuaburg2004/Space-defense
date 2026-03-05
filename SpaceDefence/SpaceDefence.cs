@@ -10,13 +10,16 @@ namespace SpaceDefence
 
         public SpaceDefence()
         {
-            _graphics = new GraphicsDeviceManager(this);
-            _graphics.IsFullScreen = false;
+            _graphics = new GraphicsDeviceManager(this)
+            {
+                IsFullScreen = false,
 
-            // Set the size of the screen
-            _graphics.PreferredBackBufferWidth = 1800;
-            _graphics.PreferredBackBufferHeight = 1000;
-            
+                // Set the size of the screen
+                PreferredBackBufferWidth = 1800,
+                PreferredBackBufferHeight = 1000,
+                
+            };
+
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }

@@ -119,9 +119,6 @@ namespace SpaceDefence
             Vector2 newPosition = _rectangleCollider.shape.Location.ToVector2();
             newPosition += velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            // Ensure Ship stays on screen
-            newPosition.X = MathHelper.Clamp(newPosition.X, 0, GameManager.GetGameManager().Game.GraphicsDevice.Viewport.Width - _rectangleCollider.shape.Width);
-            newPosition.Y = MathHelper.Clamp(newPosition.Y, 0, GameManager.GetGameManager().Game.GraphicsDevice.Viewport.Height - _rectangleCollider.shape.Height);
             // Update collider position
             _rectangleCollider.shape.Location = newPosition.ToPoint();
             GameManager.GetGameManager().WorldCamera.AdjustPosition(newPosition);
