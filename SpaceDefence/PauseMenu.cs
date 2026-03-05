@@ -18,9 +18,9 @@ namespace SpaceDefence
 
         public void HandleInput(InputManager inputManager)
         {
-            if (inputManager.IsKeyPress(Keys.Up))
+            if (inputManager.IsKeyPress(Keys.Up) || inputManager.IsKeyPress(Keys.W))
                 _selectedIndex = (_selectedIndex - 1 + _options.Length) % _options.Length;
-            if (inputManager.IsKeyPress(Keys.Down))
+            if (inputManager.IsKeyPress(Keys.Down) || inputManager.IsKeyPress(Keys.S))
                 _selectedIndex = (_selectedIndex + 1) % _options.Length;
 
             if (inputManager.IsKeyPress(Keys.Enter))
