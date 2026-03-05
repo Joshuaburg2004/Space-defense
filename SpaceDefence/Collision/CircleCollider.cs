@@ -84,6 +84,7 @@ namespace SpaceDefence
         /// <returns>true there is any overlap between the Circle and the Rectangle.</returns>
         public override bool Intersects(RectangleCollider other)
         {
+            if (other.Contains(Center)) return true;
             Vector2 TopLeft = new Vector2(other.shape.Left, other.shape.Top);
             Vector2 TopRight = new Vector2(other.shape.Right, other.shape.Top);
             Vector2 BottomLeft = new Vector2(other.shape.Left, other.shape.Bottom);

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -7,9 +6,10 @@ namespace SpaceDefence
 {
     internal class Alien : Enemy
     {
-        public Alien() 
+        public Alien(int version = 0) 
         {
-            maxSpeeds = [0f, 50f, 100f, 150f, 200f, 250f, 350f];
+            this.version = version;
+            maxSpeeds = [150f, 200f, 250f, 350f, 400f, 500f];
         }
 
         public override void Load(ContentManager content)

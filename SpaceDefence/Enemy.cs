@@ -11,7 +11,8 @@ namespace SpaceDefence
         protected float playerClearance = 100;
         protected int version = 0;
         protected int maxVersion { get => maxSpeeds.Length - 1; }
-        protected float accelerationRate = 50f;
+        protected float accelerationRate;
+        protected float[] accelerationRates = [50f, 100f, 150f];
         protected float[] maxSpeeds;
         protected Vector2 velocity = Vector2.Zero;
         public override void OnCollision(GameObject other)
@@ -20,9 +21,7 @@ namespace SpaceDefence
             RandomMove();
             // Set the new max speed to the new version. Never go faster than player
             version = Math.Clamp(version + 1, 0, maxVersion);
-            if (version == maxVersion) { 
-                accelerationRate = Math.Clamp(accelerationRate * 2, 0, 350f); 
-            }
+            accelerationRate = accelerationRates[Math.Clamp((int)Math.Floor(Convert.ToDouble(version / 2)), 0, accelerationRates.Length)];
             base.OnCollision(other);
         }
         public void RandomMove()
