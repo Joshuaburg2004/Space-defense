@@ -85,7 +85,10 @@ namespace SpaceDefence
                 }
                 if (acceleration != Vector2.Zero) { 
                     acceleration.Normalize();
-                    angle = (float)Math.Atan2(acceleration.Y, acceleration.X) + (float)Math.PI / 2.0f;
+                    float targetAngle = (float)Math.Atan2(acceleration.Y, acceleration.X) + (float)Math.PI / 2.0f;
+                    float rotationSpeed = 0.15f;
+                    float angleDifference = MathHelper.WrapAngle(targetAngle - angle);
+                    angle += angleDifference * rotationSpeed;
                 }
                 velocity += acceleration * accelerationRate;
                 float maxSpeedSquared = maxSpeed * maxSpeed;

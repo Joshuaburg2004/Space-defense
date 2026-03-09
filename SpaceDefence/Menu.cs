@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace SpaceDefence
 {
@@ -18,7 +19,6 @@ namespace SpaceDefence
         }
         public void Draw(SpriteBatch sb)
         {
-
             Camera c = GameManager.GetGameManager().WorldCamera;
             if (_title != null)
             {
@@ -36,6 +36,13 @@ namespace SpaceDefence
                 Color color = i == _selectedIndex ? Color.Yellow : Color.White;
                 sb.DrawString(_font, _options[i], worldPosition, color);
             }
+        }
+        public virtual void HandleInput(InputManager im)
+        {
+            if (im.IsKeyPress(Keys.Up) || im.IsKeyPress(Keys.W))
+                _selectedIndex = (_selectedIndex - 1 + _options.Length) % _options.Length;
+            if (im.IsKeyPress(Keys.Down) || im.IsKeyPress(Keys.S))
+                _selectedIndex = (_selectedIndex + 1) % _options.Length;
         }
     }
 }
