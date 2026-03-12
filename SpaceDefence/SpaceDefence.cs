@@ -31,7 +31,7 @@ namespace SpaceDefence
             base.Initialize();
 
             // Place the player at the center of the screen
-            Ship player = new Ship(new Point(GraphicsDevice.Viewport.Width/2,GraphicsDevice.Viewport.Height/2));
+            Ship player = new Ship();
 
             // Add the starting objects to the GameManager
             _gameManager.Initialize(Content, this, player);

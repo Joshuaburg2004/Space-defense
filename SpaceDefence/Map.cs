@@ -23,5 +23,10 @@ namespace SpaceDefence
             if (Background != null) spriteBatch.Draw(Background, new Rectangle(0, 0, Width, Height), Color.Black);
             base.Draw(gameTime, spriteBatch);
         }
+
+        public Point GetCenter()
+        {
+            return new(Width / 2, Height / 2);
+        }
     }
 }

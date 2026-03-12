@@ -25,8 +25,12 @@ namespace SpaceDefence
         /// <summary>
         /// The player character
         /// </summary>
-        /// <param name="Position">The ship's starting position</param>
-        public Ship(Point Position)
+        public Ship()
+        {
+            
+        }
+
+        public void SetPosition(Point Position)
         {
             _rectangleCollider = new RectangleCollider(new Rectangle(Position, Point.Zero));
             SetCollider(_rectangleCollider);
@@ -142,12 +146,12 @@ namespace SpaceDefence
             newPosition.X = MathHelper.Clamp(
                 newPosition.X,
                 0,
-                GameManager.GetGameManager().map.Width - _rectangleCollider.shape.Width
+                GameManager.GetGameManager().CurrentLevel.LevelMap.Width - _rectangleCollider.shape.Width
             );
             newPosition.Y = MathHelper.Clamp(
                 newPosition.Y,
                 0,
-                GameManager.GetGameManager().map.Height - _rectangleCollider.shape.Height
+                GameManager.GetGameManager().CurrentLevel.LevelMap.Height - _rectangleCollider.shape.Height
             );
             // Update collider position
             _rectangleCollider.shape.Location = newPosition.ToPoint();

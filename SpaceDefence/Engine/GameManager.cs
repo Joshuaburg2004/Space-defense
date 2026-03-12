@@ -17,6 +17,7 @@ namespace SpaceDefence
             MainMenu,
             Playing,
             Paused,
+            Won,
             GameOver
         }
         private static GameManager gameManager;
@@ -37,6 +38,10 @@ namespace SpaceDefence
         private PauseMenu _pauseMenu = new();
         private GameOver _gameOver = new();
         public Camera WorldCamera;
+        public static List<Level> Levels = new()
+        {
+            
+        };
         public Level CurrentLevel;
 
         public static GameManager GetGameManager()
