@@ -81,10 +81,13 @@ namespace SpaceDefence
             if (gameState == GameState.MainMenu) { _mainMenu.HandleInput(inputManager); }
             if (gameState == GameState.Paused) { _pauseMenu.HandleInput(inputManager); }
             if (gameState == GameState.GameOver) { _gameOver.HandleInput(inputManager); }
-            foreach (GameObject gameObject in _gameObjects)
+            else
             {
-                gameObject.HandleInput(inputManager);
-            }
+                foreach (GameObject gameObject in _gameObjects)
+                {
+                    gameObject.HandleInput(inputManager);
+                }    
+            }            
         }
 
         public void CheckCollision()
