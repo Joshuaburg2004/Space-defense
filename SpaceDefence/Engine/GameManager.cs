@@ -142,7 +142,7 @@ namespace SpaceDefence
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch) 
         {
             spriteBatch.Begin(transformMatrix: WorldCamera.GetTransformMatrix(Game.GraphicsDevice.Viewport.Width, Game.GraphicsDevice.Viewport.Height));
-            map.Draw(gameTime, spriteBatch);
+            // map.Draw(gameTime, spriteBatch);
             if (gameState == GameState.MainMenu)
             {
                 _mainMenu.Draw(spriteBatch);
