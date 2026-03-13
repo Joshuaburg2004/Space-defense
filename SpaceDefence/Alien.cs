@@ -6,11 +6,13 @@ namespace SpaceDefence
 {
     internal class Alien : Enemy
     {
-        public Alien(int version = 0) 
+        #nullable enable
+        public Alien(float[]? speeds = null) 
         {
-            this.version = version;
-            maxSpeeds = [150f, 200f, 250f, 350f, 400f, 500f];
+            if (speeds == null) { maxSpeeds = [150f, 200f, 250f, 350f, 400f, 500f]; }
+            else maxSpeeds = speeds;
         }
+        #nullable disable
 
         public override void Load(ContentManager content)
         {
@@ -44,7 +46,7 @@ namespace SpaceDefence
             velocity += direction * accelerationRate * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             // Clamp velocity to max speed for the current version
-            float currentMaxSpeed = maxSpeeds[version];
+            float currentMaxSpeed = maxSpeeds[Version];
             if (velocity.Length() > currentMaxSpeed)
             {
                 velocity.Normalize();

@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace SpaceDefence
 {
-    public class Level
+    public class Level : IEquatable<Level>
     {
         public static int CurrentLevel = 0;
         public int LevelNumber { get; set; }
@@ -35,11 +36,59 @@ namespace SpaceDefence
         {
             GameManager gm = GameManager.GetGameManager();
             gm.Player.SetPosition(LevelMap.GetCenter());
+            gm.AddGameObject(gm.Player);
+            Enemy.Version = StartingVersion;
+            for (int _ = 0; _ < NumberOfEnemies; _++)
+            {
+                gm.AddGameObject(new Alien());
+            }
+            gm.AddGameObject(new Supply());
         }
 
         public static Level GetCurrentLevel()
         {
-            return Levels.First(x => x.LevelNumber == CurrentLevel);
+            try
+            {
+                return Levels.First(x => x.LevelNumber == CurrentLevel);            
+            }
+            catch (InvalidOperationException)
+            {
+                return Levels.Last();
+            }
+        }
+        // override object.Equals
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+            return Equals((Level)obj);
+        }
+        #nullable enable
+        public bool Equals(Level? level)
+        {
+            return level != null && level.LevelNumber == LevelNumber;
+        }
+        #nullable disable
+
+        public static bool operator ==(Level level1, Level level2)
+        {
+            if (level1 == null)
+            {
+                if (level2 == null) return true;
+                return false;
+            }
+            return level1.Equals(level2);
+        }
+        public static bool operator != (Level level1, Level level2)
+        {
+            if (level1 == null)
+            {
+                if (level2 == null) return false;
+                return true;
+            }
+            return !level1.Equals(level2);
         }
     }
 }

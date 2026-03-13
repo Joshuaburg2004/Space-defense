@@ -57,6 +57,13 @@ namespace SpaceDefence
             WorldCamera = new Camera();
         }
 
+        public void Reset()
+        {
+            _gameObjects.Clear();
+            _toBeAdded.Clear();
+            _toBeRemoved.Clear();
+        }
+
         public void Initialize(ContentManager content, Game game, Ship player)
         {
             Game = game;
