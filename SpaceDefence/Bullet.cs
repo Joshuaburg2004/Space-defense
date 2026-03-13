@@ -29,7 +29,7 @@ namespace SpaceDefence
         {
             base.Update(gameTime);
             _circleCollider.Center += _velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (!GameManager.GetGameManager().Game.GraphicsDevice.Viewport.Bounds.Contains(_circleCollider.Center))
+            if (!Level.GetCurrentLevel().LevelMap.Contains(_circleCollider.Center))
                  GameManager.GetGameManager().RemoveGameObject(this);
 
         }

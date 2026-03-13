@@ -45,27 +45,47 @@ namespace SpaceDefence
         /// <summary>
         /// Calculates the transformation matrix for the camera.
         /// </summary>
-        /// <param name="viewportWidth">The width of the viewport (screen).</param>
-        /// <param name="viewportHeight">The height of the viewport (screen).</param>
         /// <returns>A Matrix representing the camera's transformation.</returns>
-        public Matrix GetTransformMatrix(int viewportWidth, int viewportHeight)
+        public Matrix GetTransformMatrix()
         {
             return Matrix.CreateTranslation(new Vector3(-position, 0.0f)) *
                    Matrix.CreateRotationZ(rotation) *
                    Matrix.CreateScale(zoom, zoom, 1.0f) *
-                   Matrix.CreateTranslation(new Vector3(viewportWidth / 2.0f, viewportHeight / 2.0f, 0.0f));
+                   Matrix.CreateTranslation(new Vector3(GameManager.GetGameManager().Game.GraphicsDevice.Viewport.Width / 2.0f, GameManager.GetGameManager().Game.GraphicsDevice.Viewport.Height / 2.0f, 0.0f));
         }
+
+        /// <summary>
+        /// Adjusts the camera position and ensures it stays within the map boundaries.
+        /// </summary>
+        /// <param name="newPosition">The new position to set.</param>
         public void AdjustPosition(Vector2 newPosition)
         {
-            Position = newPosition;
-        }
-        public Point ScreenToWorld(Point screenPosition, int viewportWidth, int viewportHeight)
-        {
-            // Invert the camera's transformation matrix
-            var inverseTransform = Matrix.Invert(GetTransformMatrix(viewportWidth, viewportHeight));
+            // Calculate the camera bounds
+            float halfViewportWidth = GameManager.GetGameManager().Game.GraphicsDevice.Viewport.Width / (2.0f * zoom);
+            float halfViewportHeight = GameManager.GetGameManager().Game.GraphicsDevice.Viewport.Height / (2.0f * zoom);
 
-            // Transform the screen position into world coordinates
-            return Vector2.Transform(screenPosition.ToVector2(), inverseTransform).ToPoint();
+            // Clamp the position to ensure the camera stays within the map
+            float clampedX = MathHelper.Clamp(newPosition.X, halfViewportWidth, Level.GetCurrentLevel().LevelMap.Width - halfViewportWidth);
+            float clampedY = MathHelper.Clamp(newPosition.Y, halfViewportHeight, Level.GetCurrentLevel().LevelMap.Height - halfViewportHeight);
+
+            Position = new Vector2(clampedX, clampedY);
+        }
+
+        public Point ScreenToWorld(Point screenPosition)
+        {
+            // Get the viewport dimensions
+            var viewport = GameManager.GetGameManager().Game.GraphicsDevice.Viewport;
+
+            // Adjust the screen position to be relative to the camera's center
+            Vector2 adjustedScreenPosition = screenPosition.ToVector2();
+            adjustedScreenPosition -= new Vector2(viewport.Width / 2.0f, viewport.Height / 2.0f);
+
+            // Apply the inverse of the camera's transformations
+            adjustedScreenPosition /= zoom; // Undo zoom
+            adjustedScreenPosition = Vector2.Transform(adjustedScreenPosition, Matrix.CreateRotationZ(-rotation)); // Undo rotation
+            adjustedScreenPosition += position; // Undo translation
+
+            return adjustedScreenPosition.ToPoint();
         }
     }
 }

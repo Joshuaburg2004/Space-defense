@@ -67,9 +67,7 @@ namespace SpaceDefence
             if (gm.gameState == GameManager.GameState.Playing)
             {
                 target = gm.WorldCamera.ScreenToWorld(
-                    inputManager.CurrentMouseState.Position,
-                    gm.Game.GraphicsDevice.Viewport.Width,
-                    gm.Game.GraphicsDevice.Viewport.Height
+                    inputManager.CurrentMouseState.Position
                 );
                 // Check W, A, S and D, adjust momentum accordingly
                 Vector2 acceleration = new Vector2();

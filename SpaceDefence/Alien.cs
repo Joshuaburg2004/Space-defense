@@ -51,8 +51,8 @@ namespace SpaceDefence
             newPosition += velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             //Ensure Ship stays on screen
-            newPosition.X = MathHelper.Clamp(newPosition.X, 0, GameManager.GetGameManager().Game.GraphicsDevice.Viewport.Width);
-            newPosition.Y = MathHelper.Clamp(newPosition.Y, 0, GameManager.GetGameManager().Game.GraphicsDevice.Viewport.Height);
+            newPosition.X = MathHelper.Clamp(newPosition.X, 0, Level.GetCurrentLevel().LevelMap.Width);
+            newPosition.Y = MathHelper.Clamp(newPosition.Y, 0, Level.GetCurrentLevel().LevelMap.Height);
             // New position
 
             // Update position

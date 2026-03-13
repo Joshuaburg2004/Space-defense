@@ -23,14 +23,14 @@ namespace SpaceDefence
             if (_title != null)
             {
                 Point screenPosition = new Vector2(80, 200).ToPoint(); // Original screen position
-                Vector2 worldPosition = c.ScreenToWorld(screenPosition, sb.GraphicsDevice.Viewport.Width, sb.GraphicsDevice.Viewport.Height).ToVector2();
+                Vector2 worldPosition = c.ScreenToWorld(screenPosition).ToVector2();
 
                 sb.DrawString(_font, _title, worldPosition, Color.White);
             }
             for (int i = 0; i < _options.Length; i++)
             {
                 Point screenPosition = new Vector2(800, 400 + i * 50).ToPoint(); // Original screen position
-                Vector2 worldPosition = c.ScreenToWorld(screenPosition, sb.GraphicsDevice.Viewport.Width, sb.GraphicsDevice.Viewport.Height).ToVector2();
+                Vector2 worldPosition = c.ScreenToWorld(screenPosition).ToVector2();
 
                 // Draw the text at the world position
                 Color color = i == _selectedIndex ? Color.Yellow : Color.White;

@@ -37,7 +37,7 @@ namespace SpaceDefence
         private MainMenu _mainMenu = new();
         private PauseMenu _pauseMenu = new();
         private GameOver _gameOver = new();
-        private WinScreen _winScreen = new();
+        public WinScreen _winScreen = new();
         public Camera WorldCamera;
 
         public static GameManager GetGameManager()
@@ -72,6 +72,7 @@ namespace SpaceDefence
             _mainMenu.Load(content);
             _pauseMenu.Load(content);
             _gameOver.Load(content);
+            _winScreen.Load(content);
             Level.GetCurrentLevel().Start();
         }
 
@@ -154,7 +155,7 @@ namespace SpaceDefence
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch) 
         {
-            spriteBatch.Begin(transformMatrix: WorldCamera.GetTransformMatrix(Game.GraphicsDevice.Viewport.Width, Game.GraphicsDevice.Viewport.Height));
+            spriteBatch.Begin(transformMatrix: WorldCamera.GetTransformMatrix());
             // map.Draw(gameTime, spriteBatch);
             if (gameState == GameState.MainMenu)
             {
@@ -168,6 +169,7 @@ namespace SpaceDefence
                 }
                 if (gameState == GameState.Paused) { _pauseMenu.Draw(spriteBatch); }
                 if (gameState == GameState.GameOver) { _gameOver.Draw(spriteBatch); }
+                if (gameState == GameState.Won) { _winScreen.Draw(spriteBatch); }
             }
             spriteBatch.End();
         }
@@ -200,8 +202,8 @@ namespace SpaceDefence
         public Vector2 RandomScreenLocation()
         {
             return new Vector2(
-                RNG.Next(0, Game.GraphicsDevice.Viewport.Width),
-                RNG.Next(0, Game.GraphicsDevice.Viewport.Height));
+                RNG.Next(0, Level.GetCurrentLevel().LevelMap.Width),
+                RNG.Next(0, Level.GetCurrentLevel().LevelMap.Height));
         }
     }
 }

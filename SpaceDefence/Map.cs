@@ -28,5 +28,10 @@ namespace SpaceDefence
         {
             return new(Width / 2, Height / 2);
         }
+
+        public bool Contains(Vector2 p)
+        {
+            return p.X < Width && p.Y < Height && p.X > 0 && p.Y > 0;
+        }
     }
 }

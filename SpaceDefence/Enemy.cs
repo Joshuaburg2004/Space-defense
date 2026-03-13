@@ -10,19 +10,23 @@ namespace SpaceDefence
         protected CircleCollider _circleCollider;
         protected Texture2D _texture;
         protected float playerClearance = 100;
-        protected int maxVersion { get => maxSpeeds.Length - 1; }
-        protected float accelerationRate;
-        protected float[] accelerationRates = [50f, 100f, 150f];
+        protected static int maxVersion { get => maxSpeeds.Length - 1; }
+        protected static float accelerationRate;
+        protected static float[] accelerationRates;
         protected static float[] maxSpeeds;
         protected Vector2 velocity = Vector2.Zero;
         public override void OnCollision(GameObject other)
         {
             if (other is not Laser && other is not Bullet) { return; }
             RandomMove();
-            // Set the new max speed to the new version. Never go faster than player
+            // Set the new max speed to the new version.
             Version = Math.Clamp(Version + 1, 0, maxVersion);
             accelerationRate = accelerationRates[Math.Clamp((int)Math.Floor(Convert.ToDouble(Version / 2)), 0, accelerationRates.Length)];
+            var cl = Level.GetCurrentLevel();
+            cl.CurrentProgression++;
             base.OnCollision(other);
+            cl.CheckWin();
+
         }
         public void RandomMove()
         {
@@ -36,6 +40,10 @@ namespace SpaceDefence
         public static void SetMaxSpeeds(float[] speeds)
         {
             maxSpeeds = speeds;
+        }
+        public static void SetAccelerationRates(float[] accRates)
+        {
+            accelerationRates = accRates;
         }
     }
 }

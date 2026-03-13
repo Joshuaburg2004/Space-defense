@@ -67,6 +67,7 @@ Add something new to the game of your chosing. For example:
 -  Weapon upgrades (1-2p depending on depth)
 
 Add a short description of what you added. You can get up to 2 points depending on complexity 
+Added Levels to the game, with progression between levels being available and allowing for both more enemies per level or allowing for different speed modes depending on the level. Enemies share one speed list and share a speed ramping - if one enemy dies then all enemies speed up. Levels can be tracked in the Level class in the Levels list, which can be expanded.
 
 You can get a maximum of 11 points for this assignment.
 
