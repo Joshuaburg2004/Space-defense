@@ -39,7 +39,6 @@ namespace SpaceDefence
         private GameOver _gameOver = new();
         private WinScreen _winScreen = new();
         public Camera WorldCamera;
-        public Level CurrentLevel;
 
         public static GameManager GetGameManager()
         {

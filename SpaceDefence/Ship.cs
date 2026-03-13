@@ -146,12 +146,12 @@ namespace SpaceDefence
             newPosition.X = MathHelper.Clamp(
                 newPosition.X,
                 0,
-                GameManager.GetGameManager().CurrentLevel.LevelMap.Width - _rectangleCollider.shape.Width
+                Level.GetCurrentLevel().LevelMap.Width - _rectangleCollider.shape.Width
             );
             newPosition.Y = MathHelper.Clamp(
                 newPosition.Y,
                 0,
-                GameManager.GetGameManager().CurrentLevel.LevelMap.Height - _rectangleCollider.shape.Height
+                Level.GetCurrentLevel().LevelMap.Height - _rectangleCollider.shape.Height
             );
             // Update collider position
             _rectangleCollider.shape.Location = newPosition.ToPoint();
