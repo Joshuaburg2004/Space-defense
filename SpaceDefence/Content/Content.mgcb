@@ -25,6 +25,13 @@
 /processorParam:TextureFormat=Color
 /build:Alien.png
 
+#begin Arial.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Arial.spritefont
+
 #begin base_turret.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -60,13 +67,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Crate.png
-
-#begin DejaVu Sans.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:DejaVu Sans.spritefont
 
 #begin laser_turret.png
 /importer:TextureImporter
