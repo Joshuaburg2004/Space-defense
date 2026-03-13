@@ -6,13 +6,7 @@ namespace SpaceDefence
 {
     internal class Alien : Enemy
     {
-        #nullable enable
-        public Alien(float[]? speeds = null) 
-        {
-            if (speeds == null) { maxSpeeds = [150f, 200f, 250f, 350f, 400f, 500f]; }
-            else maxSpeeds = speeds;
-        }
-        #nullable disable
+        public Alien() { }
 
         public override void Load(ContentManager content)
         {

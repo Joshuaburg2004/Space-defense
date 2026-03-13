@@ -9,40 +9,47 @@ namespace SpaceDefence
         public static int CurrentLevel = 0;
         public int LevelNumber { get; set; }
         public int NumberOfEnemies { get; set; }
-        public int StartingVersion { get; set; }
+        public float[] Speeds { get; set; }
         public Map LevelMap { get; private set; }
         public static List<Level> Levels = new()
         {
-            
+            new (1, 2000, 2000, [150f, 200f, 250f, 350f, 400f, 500f], 1)
         };
 
-        public Level(int levelNumber, Map levelMap, int startingVersion, int numberOfEnemies)
+        public Level(int levelNumber, Map levelMap, float[] speeds, int numberOfEnemies)
         {
             LevelNumber = levelNumber;
             LevelMap = levelMap;
-            StartingVersion = startingVersion;
+            Speeds = speeds;
             NumberOfEnemies = numberOfEnemies;
         }
 
-        public Level(int levelNumber, int Width, int Height, int startingVersion, int numberOfEnemies)
+        public Level(int levelNumber, int Width, int Height, float[] speeds, int numberOfEnemies)
         {
             LevelNumber = levelNumber;
             LevelMap = new Map(Width, Height);
-            StartingVersion = startingVersion;
+            Speeds = speeds;
             NumberOfEnemies = numberOfEnemies;
         }
 
         public void Start()
         {
             GameManager gm = GameManager.GetGameManager();
-            gm.Player.SetPosition(LevelMap.GetCenter());
+            gm.Reset();
             gm.AddGameObject(gm.Player);
-            Enemy.Version = StartingVersion;
+            gm.Player.SetPosition(LevelMap.GetCenter());
+            Enemy.Version = 0;
+            Enemy.SetMaxSpeeds(Speeds);
             for (int _ = 0; _ < NumberOfEnemies; _++)
             {
                 gm.AddGameObject(new Alien());
             }
             gm.AddGameObject(new Supply());
+        }
+
+        public static bool IsLast(Level level)
+        {
+            return level == Levels.Last();
         }
 
         public static Level GetCurrentLevel()
@@ -89,6 +96,11 @@ namespace SpaceDefence
                 return true;
             }
             return !level1.Equals(level2);
+        }
+
+        public override int GetHashCode()
+        {
+            throw new NotImplementedException();
         }
     }
 }

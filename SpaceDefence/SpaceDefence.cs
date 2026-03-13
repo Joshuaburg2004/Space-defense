@@ -35,7 +35,6 @@ namespace SpaceDefence
 
             // Add the starting objects to the GameManager
             _gameManager.Initialize(Content, this, player);
-            Level.GetCurrentLevel().Start();
         }
 
         protected override void LoadContent()

@@ -73,6 +73,7 @@ namespace SpaceDefence
             _mainMenu.Load(content);
             _pauseMenu.Load(content);
             _gameOver.Load(content);
+            Level.GetCurrentLevel().Start();
         }
 
         public void Load(ContentManager content)
@@ -90,7 +91,7 @@ namespace SpaceDefence
             if (gameState == GameState.MainMenu) { _mainMenu.HandleInput(inputManager); }
             if (gameState == GameState.Paused) { _pauseMenu.HandleInput(inputManager); }
             if (gameState == GameState.GameOver) { _gameOver.HandleInput(inputManager); }
-            if (gameState == GameState.Won) { }
+            if (gameState == GameState.Won) { _winScreen.HandleInput(inputManager); }
             else
             {
                 foreach (GameObject gameObject in _gameObjects)

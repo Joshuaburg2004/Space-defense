@@ -13,7 +13,7 @@ namespace SpaceDefence
         protected int maxVersion { get => maxSpeeds.Length - 1; }
         protected float accelerationRate;
         protected float[] accelerationRates = [50f, 100f, 150f];
-        protected float[] maxSpeeds;
+        protected static float[] maxSpeeds;
         protected Vector2 velocity = Vector2.Zero;
         public override void OnCollision(GameObject other)
         {
@@ -32,6 +32,10 @@ namespace SpaceDefence
             Vector2 centerOfPlayer = gm.Player.GetPosition().Center.ToVector2();
             while ((_circleCollider.Center - centerOfPlayer).Length() < playerClearance)
                 _circleCollider.Center = gm.RandomScreenLocation();
+        }
+        public static void SetMaxSpeeds(float[] speeds)
+        {
+            maxSpeeds = speeds;
         }
     }
 }
