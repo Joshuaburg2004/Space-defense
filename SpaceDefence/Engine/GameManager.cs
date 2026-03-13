@@ -37,11 +37,8 @@ namespace SpaceDefence
         private MainMenu _mainMenu = new();
         private PauseMenu _pauseMenu = new();
         private GameOver _gameOver = new();
+        private WinScreen _winScreen = new();
         public Camera WorldCamera;
-        public static List<Level> Levels = new()
-        {
-            
-        };
         public Level CurrentLevel;
 
         public static GameManager GetGameManager()
@@ -86,6 +83,7 @@ namespace SpaceDefence
             if (gameState == GameState.MainMenu) { _mainMenu.HandleInput(inputManager); }
             if (gameState == GameState.Paused) { _pauseMenu.HandleInput(inputManager); }
             if (gameState == GameState.GameOver) { _gameOver.HandleInput(inputManager); }
+            if (gameState == GameState.Won) { }
             else
             {
                 foreach (GameObject gameObject in _gameObjects)

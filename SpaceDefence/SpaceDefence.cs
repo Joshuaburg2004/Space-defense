@@ -30,7 +30,7 @@ namespace SpaceDefence
             _gameManager = GameManager.GetGameManager();
             base.Initialize();
 
-            // Place the player at the center of the screen
+            // Create the player - placing player happens in _gameManager.Start()
             Ship player = new Ship();
 
             // Add the starting objects to the GameManager
