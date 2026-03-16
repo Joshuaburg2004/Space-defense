@@ -71,19 +71,19 @@ namespace SpaceDefence
                 );
                 // Check W, A, S and D, adjust momentum accordingly
                 Vector2 acceleration = new Vector2();
-                if (inputManager.IsKeyDown(Keys.W))
+                if (inputManager.IsKeyDown(Keys.W) || inputManager.IsKeyDown(Keys.Up))
                 {
                     acceleration.Y -= 1;
                 }
-                if (inputManager.IsKeyDown(Keys.S))
+                if (inputManager.IsKeyDown(Keys.S) || inputManager.IsKeyDown(Keys.Down))
                 {
                     acceleration.Y += 1;
                 }
-                if (inputManager.IsKeyDown(Keys.A))
+                if (inputManager.IsKeyDown(Keys.A) || inputManager.IsKeyDown(Keys.Left))
                 {
                     acceleration.X -= 1;
                 }
-                if (inputManager.IsKeyDown(Keys.D))
+                if (inputManager.IsKeyDown(Keys.D) || inputManager.IsKeyDown(Keys.Right))
                 {
                     acceleration.X += 1;
                 }

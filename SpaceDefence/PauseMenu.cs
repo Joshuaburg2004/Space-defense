@@ -9,7 +9,7 @@ namespace SpaceDefence
     {
         public PauseMenu()
         {
-            _options = ["Resume Game", "Quit" ];
+            _options = ["RESUME GAME", "TRY AGAIN", "QUIT" ];
         }
         public override void HandleInput(InputManager im)
         {
@@ -18,7 +18,12 @@ namespace SpaceDefence
             {
                 if (_selectedIndex == 0) // Resume Game
                     GameManager.GetGameManager().gameState = GameManager.GameState.Playing;
-                else if (_selectedIndex == 1) // Quit
+                if (_selectedIndex == 1) 
+                {
+                    GameManager.GetGameManager().gameState = GameManager.GameState.Playing;
+                    Level.GetCurrentLevel().Start();
+                }
+                else if (_selectedIndex == 2) // Quit
                     GameManager.GetGameManager().Game.Exit();
             }
         }
