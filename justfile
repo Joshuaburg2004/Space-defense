@@ -1,4 +1,5 @@
+message := "Committing current files"
 run:
-    cd SpaceDefence && dotnet run && cd ..
-add:
-    git add .
+    dotnet run --project SpaceDefence
+git-routine:
+    git add . && git commit -m "{{message}}" && git push
