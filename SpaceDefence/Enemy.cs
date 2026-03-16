@@ -26,7 +26,6 @@ namespace SpaceDefence
             cl.CurrentProgression++;
             base.OnCollision(other);
             cl.CheckWin();
-
         }
         public void RandomMove()
         {

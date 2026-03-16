@@ -25,6 +25,7 @@ namespace SpaceDefence
         {
             LevelNumber = levelNumber;
             LevelMap = levelMap;
+            LevelMap.SetBackground("space_breaker_asset/Background/stars_texture");
             Speeds = speeds;
             NumberOfEnemies = numberOfEnemies;
             ProgressionLimit = progressionLimit;
@@ -35,6 +36,7 @@ namespace SpaceDefence
         {
             LevelNumber = levelNumber;
             LevelMap = new Map(Width, Height);
+            LevelMap.SetBackground("space_breaker_asset/Background/stars_texture");
             Speeds = speeds;
             NumberOfEnemies = numberOfEnemies;
             ProgressionLimit = progressionLimit;
@@ -53,6 +55,7 @@ namespace SpaceDefence
             Enemy.SetAccelerationRates(Rates);
             for (int _ = 0; _ < NumberOfEnemies; _++)
             {
+                gm.AddGameObject(new Asteroid());
                 gm.AddGameObject(new Alien());
             }
             gm.AddGameObject(new Supply());

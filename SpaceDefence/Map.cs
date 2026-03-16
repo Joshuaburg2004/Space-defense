@@ -14,14 +14,14 @@ namespace SpaceDefence
             Width = width; 
             Height = height;
         }
-        public void SetBackground(string name, ContentManager content)
+        public void SetBackground(string name)
         {
-            Background = content.Load<Texture2D>(name);
+            Background = GameManager.GetGameManager()._content.Load<Texture2D>(name);
         }
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            if (Background != null) spriteBatch.Draw(Background, new Rectangle(0, 0, Width, Height), Color.Black);
-            base.Draw(gameTime, spriteBatch);
+            if (Background != null) 
+                spriteBatch.Draw(Background, new Rectangle(0, 0, Width, Height), new Rectangle(-Width, -Height, Width, Height), Color.White);
         }
 
         public Point GetCenter()

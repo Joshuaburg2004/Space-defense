@@ -25,7 +25,7 @@ namespace SpaceDefence
         private List<GameObject> _gameObjects;
         private List<GameObject> _toBeRemoved;
         private List<GameObject> _toBeAdded;
-        private ContentManager _content;
+        public ContentManager _content;
 
         public Random RNG { get; private set; }
         public Ship Player { get; private set; }
@@ -68,12 +68,11 @@ namespace SpaceDefence
             Game = game;
             _content = content;
             Player = player;
-
+            Level.GetCurrentLevel().Start();
             _mainMenu.Load(content);
             _pauseMenu.Load(content);
             _gameOver.Load(content);
             _winScreen.Load(content);
-            Level.GetCurrentLevel().Start();
         }
 
         public void Load(ContentManager content)
@@ -155,22 +154,23 @@ namespace SpaceDefence
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch) 
         {
+            if (gameState == GameState.MainMenu) {
+                spriteBatch.Begin(samplerState: SamplerState.PointWrap);
+            }
+            else {
+                spriteBatch.Begin(transformMatrix: WorldCamera.GetTransformMatrix(), samplerState: SamplerState.PointWrap);
+            }
+            Level.GetCurrentLevel().LevelMap.Draw(gameTime, spriteBatch);
+            spriteBatch.End();
             spriteBatch.Begin(transformMatrix: WorldCamera.GetTransformMatrix());
-            // map.Draw(gameTime, spriteBatch);
-            if (gameState == GameState.MainMenu)
+            foreach (GameObject gameObject in _gameObjects)
             {
-                _mainMenu.Draw(spriteBatch);
+                gameObject.Draw(gameTime, spriteBatch);
             }
-            else
-            {
-                foreach (GameObject gameObject in _gameObjects)
-                {
-                    gameObject.Draw(gameTime, spriteBatch);
-                }
-                if (gameState == GameState.Paused) { _pauseMenu.Draw(spriteBatch); }
-                if (gameState == GameState.GameOver) { _gameOver.Draw(spriteBatch); }
-                if (gameState == GameState.Won) { _winScreen.Draw(spriteBatch); }
-            }
+            if (gameState == GameState.MainMenu) { _mainMenu.Draw(spriteBatch); }
+            if (gameState == GameState.Paused) { _pauseMenu.Draw(spriteBatch); }
+            if (gameState == GameState.GameOver) { _gameOver.Draw(spriteBatch); }
+            if (gameState == GameState.Won) { _winScreen.Draw(spriteBatch); }
             spriteBatch.End();
         }
 

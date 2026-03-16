@@ -213,7 +213,7 @@ namespace SpaceDefence
 
         public override void OnCollision(GameObject other)
         {
-            if (other is Alien)
+            if (other is Alien || other is Asteroid)
             {
                 GameManager.GetGameManager().gameState = GameManager.GameState.GameOver;
             }
