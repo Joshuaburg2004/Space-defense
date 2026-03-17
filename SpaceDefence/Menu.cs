@@ -15,7 +15,7 @@ namespace SpaceDefence
         protected int _selectedIndex = 0;
         public void Load(ContentManager cm)
         {
-            _font = cm.Load<SpriteFont>("DejaVu Sans");
+            _font = cm.Load<SpriteFont>("Open Sans");
         }
         public void Draw(SpriteBatch sb)
         {
