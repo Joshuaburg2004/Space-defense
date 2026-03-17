@@ -78,7 +78,7 @@
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:DejaVu Sans.spritefont
+/build:DejaVu Sans.spritefont;Open Sans.spritefont
 
 #begin laser_turret.png
 /importer:TextureImporter
